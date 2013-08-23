@@ -1,13 +1,109 @@
 <!doctype html>
 <html>
 	<head>
-		<meta charset="UTF-8">
-		<link rel="stylesheet" type="text/css" href="styles.css">
+		<title>Tagging Demo</title>
+		<style>
+			body, html {
+				height: 100%;
+				width: 100%;
+				padding: 0;
+				margin: 0;
+			}
+
+			.over-wrapper {
+				position: relative;
+				width: 1000px;
+				height: 595px;
+				overflow: hidden;
+				margin: 10px auto 0 auto;
+			}
+
+			.box {
+				position: absolute;
+				cursor: pointer;
+				border: 1px solid #fff;
+			}
+
+			.box .name {
+				padding: 3px 7px;
+				background: #fff;
+				display: inline-block;
+				margin: 0 auto;
+				text-transform: uppercase;
+			}
+
+			.box:after, .box:before {
+				display: none;
+				content: '\0';
+				width: 100%;
+				height: 100%;
+				border-radius: 400px;
+				border: 5px dashed rgba(0,0,0,.4);
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			.box:after {
+				border: 5px dashed #fff;
+				display: none;
+				margin: -3px 0 0 0;
+			}
+
+			.box:hover:after {
+				display: block;
+			}
+			.box:hover:before {
+				display: block;
+			}
+
+		</style>
+		<script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+		<script>
+			$(function() {
+				var nums = [100, 100, 120, 230, "James", 100, 100, 300, 500, "Jimi"];
+				var coords = [];
+
+				if (nums.length % 5 != 0) {
+
+					return;
+				}
+
+				for (var i = -1; i < nums.length - 1; i += 5) {
+					console.log(i, nums.length);
+					coords[coords.length] = {
+						'width' : nums[i + 1],
+						'height' : nums[i + 2],
+						'left' : nums[i + 3],
+						'top' : nums[i + 4],
+						'name' : nums[i + 5]
+					};
+				};
+
+				var boxmaker = function(l) {
+					var $out = $('<div class="box"></div>');
+
+					$out.css('left', l.left + 'px');
+					$out.css('top', l.top + 'px');
+					$out.css('width', l.width + 'px');
+					$out.css('height', l.height + 'px');
+					$out.html('<span class="name">' + l.name + '</span>');
+					return $out;
+				};
+
+				console.log(coords);
+
+				for (var i = coords.length - 1; i >= 0; i--) {
+					$('#plane').append(boxmaker(coords[i]));
+				};
+
+			});
+		</script>
 	</head>
 	<body>
-		<div class="wrapper">
-			<div class="box"></div>
-			<img src="photo.jpg"/>
+		<div id="plane" class="over-wrapper">
+
+			<img src="http://csulb.acm.org/static/data/about/2012-2013/photo.jpg" alt="">
 		</div>
 	</body>
 </html>
